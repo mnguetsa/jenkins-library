@@ -1,3 +1,5 @@
+import hudson.AbortException
+
 import com.sap.piper.DockerUtils
 import com.sap.piper.GenerateDocumentation
 import com.sap.piper.Utils
@@ -32,7 +34,11 @@ import static com.sap.piper.Prerequisites.checkScript
     /** For buildTool npm: Execute npm install (boolean, default 'true') */
     'npmInstall',
     /** For buildTool npm: List of npm run scripts to execute */
-    'npmRunScripts'
+    'npmRunScripts',
+    /** Defines if a container image should be created using Cloud Native Buildpacks using the artifact created defined by `buildTool`.
+     * @possibleValues true, false
+     */
+    'cnbBuild',
 ])
 @Field Set PARAMETER_KEYS = STEP_CONFIG_KEYS
 
@@ -99,6 +105,24 @@ void call(Map parameters = [:]) {
                 } else {
                     error "[${STEP_NAME}] buildTool not set and no dockerImage & dockerCommand provided."
                 }
+        }
+        if (config.buildTool != 'docker' && config.cnbBuild) {
+            switch(config.buildTool){
+                case 'npm':
+                    script.commonPipelineEnvironment.setContainerProperty('buildpacks', ["gcr.io/paketo-buildpacks/nodejs"])
+                    break
+                case 'gradle':
+                case 'maven':
+                     script.commonPipelineEnvironment.setContainerProperty('buildpacks', ["gcr.io/paketo-buildpacks/java"])
+                     break
+                case 'mta':
+                     // List of buildpacks and paths should be explicitly configured via 'config.yaml' file.
+                     break
+                default:
+                     throw new AbortException("ERROR - 'cnbBuild' does not support '${config.buildTool}' as a buildTool, consider using 'kanikoExecute' instead")
+            }
+
+            cnbBuild script: script
         }
     }
 }
