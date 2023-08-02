@@ -314,4 +314,75 @@ class BuildExecuteTest extends BasePiperTest {
         )
         assertThat(buildToolCalled, is(true))
     }
+
+    @Test
+    void testCnbBuildCalledForNPMWhenConfigured() {
+        def cnbBuildCalled = false
+        def npmExecuteScriptsCalled = false
+        helper.registerAllowedMethod('npmExecuteScripts', [Map.class], { m ->
+            npmExecuteScriptsCalled = true
+        })
+        helper.registerAllowedMethod('cnbBuild', [Map.class], { m ->
+            cnbBuildCalled = true
+            return
+        })
+        assertThat(nullScript.commonPipelineEnvironment.getContainerProperty('buildpacks'), nullValue())
+
+        stepRule.step.buildExecute(
+            script: nullScript,
+            buildTool: 'npm',
+            cnbBuild: true
+        )
+
+        assertThat(nullScript.commonPipelineEnvironment.getContainerProperty('buildpacks'), is(['gcr.io/paketo-buildpacks/nodejs']))
+        assertThat(npmExecuteScriptsCalled, is(true))
+        assertThat(cnbBuildCalled, is(true))
+    }
+
+    @Test
+    void testCnbBuildCalledForMavenWhenConfigured() {
+        def cnbBuildCalled = false
+        def mavenBuildCalled = false
+        helper.registerAllowedMethod('mavenBuild', [Map.class], { m ->
+            mavenBuildCalled = true
+        })
+        helper.registerAllowedMethod('cnbBuild', [Map.class], { m ->
+            cnbBuildCalled = true
+            return
+        })
+        helper.registerAllowedMethod('fileExists', [String.class], { m ->
+            return false
+        })
+        assertThat(nullScript.commonPipelineEnvironment.getContainerProperty('buildpacks'), nullValue())
+
+        stepRule.step.buildExecute(
+            script: nullScript,
+            buildTool: 'maven',
+            cnbBuild: true
+        )
+
+        assertThat(nullScript.commonPipelineEnvironment.getContainerProperty('buildpacks'), is(['gcr.io/paketo-buildpacks/java']))
+        assertThat(mavenBuildCalled, is(true))
+        assertThat(cnbBuildCalled, is(true))
+    }
+
+    @Test
+    void testCnbBuildNotCalledWhenNotConfigured() {
+        def cnbBuildCalled = false
+        def npmExecuteScriptsCalled = false
+        helper.registerAllowedMethod('npmExecuteScripts', [Map.class], { m ->
+            npmExecuteScriptsCalled = true
+        })
+        helper.registerAllowedMethod('cnbBuild', [Map.class], { m ->
+            cnbBuildCalled = true
+            return
+        })
+        stepRule.step.buildExecute(
+            script: nullScript,
+            buildTool: 'npm',
+            cnbBuild: false
+        )
+        assertThat(npmExecuteScriptsCalled, is(true))
+        assertThat(cnbBuildCalled, is(false))
+    }
 }
