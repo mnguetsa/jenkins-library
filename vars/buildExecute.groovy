@@ -35,7 +35,7 @@ import static com.sap.piper.Prerequisites.checkScript
     'npmInstall',
     /** For buildTool npm: List of npm run scripts to execute */
     'npmRunScripts',
-    /** Defines if a container image should be created using Cloud Native Buildpacks using the artifact created defined by `buildTool`.
+    /** Defines if a container image(s) should be created with Cloud Native Buildpacks using the artifact produced by the `buildTool`.
      * @possibleValues true, false
      */
     'cnbBuild',
