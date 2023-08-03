@@ -316,7 +316,7 @@ class BuildExecuteTest extends BasePiperTest {
     }
 
     @Test
-    void testCnbBuildCalledForNPMWhenConfigured() {
+    void testCnbBuildCalledWhenConfigured() {
         def cnbBuildCalled = false
         def npmExecuteScriptsCalled = false
         helper.registerAllowedMethod('npmExecuteScripts', [Map.class], { m ->
@@ -334,35 +334,7 @@ class BuildExecuteTest extends BasePiperTest {
             cnbBuild: true
         )
 
-        assertThat(nullScript.commonPipelineEnvironment.getContainerProperty('buildpacks'), is(['gcr.io/paketo-buildpacks/nodejs']))
         assertThat(npmExecuteScriptsCalled, is(true))
-        assertThat(cnbBuildCalled, is(true))
-    }
-
-    @Test
-    void testCnbBuildCalledForMavenWhenConfigured() {
-        def cnbBuildCalled = false
-        def mavenBuildCalled = false
-        helper.registerAllowedMethod('mavenBuild', [Map.class], { m ->
-            mavenBuildCalled = true
-        })
-        helper.registerAllowedMethod('cnbBuild', [Map.class], { m ->
-            cnbBuildCalled = true
-            return
-        })
-        helper.registerAllowedMethod('fileExists', [String.class], { m ->
-            return false
-        })
-        assertThat(nullScript.commonPipelineEnvironment.getContainerProperty('buildpacks'), nullValue())
-
-        stepRule.step.buildExecute(
-            script: nullScript,
-            buildTool: 'maven',
-            cnbBuild: true
-        )
-
-        assertThat(nullScript.commonPipelineEnvironment.getContainerProperty('buildpacks'), is(['gcr.io/paketo-buildpacks/java']))
-        assertThat(mavenBuildCalled, is(true))
         assertThat(cnbBuildCalled, is(true))
     }
 

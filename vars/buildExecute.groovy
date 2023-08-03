@@ -107,22 +107,10 @@ void call(Map parameters = [:]) {
                 }
         }
         if (config.buildTool != 'docker' && config.cnbBuild) {
-            switch(config.buildTool){
-                case 'npm':
-                    script.commonPipelineEnvironment.setContainerProperty('buildpacks', ["gcr.io/paketo-buildpacks/nodejs"])
-                    break
-                case 'gradle':
-                case 'maven':
-                     script.commonPipelineEnvironment.setContainerProperty('buildpacks', ["gcr.io/paketo-buildpacks/java"])
-                     break
-                case 'mta':
-                     // List of buildpacks and paths should be explicitly configured via 'config.yaml' file.
-                     break
-                default:
-                     throw new AbortException("ERROR - 'cnbBuild' does not support '${config.buildTool}' as a buildTool, consider using 'kanikoExecute' instead")
-            }
-
-            cnbBuild script: script
+            if (!['npm', 'maven', 'mta', 'docker'].contains(config.buildTool)) {
+                throw new AbortException("ERROR - 'cnbBuild' does not support '${config.buildTool}' as a buildTool, consider using 'kanikoExecute' instead")
+          }
+          cnbBuild script: script
         }
     }
 }
