@@ -112,5 +112,14 @@ void call(Map parameters = [:]) {
           }
           cnbBuild script: script
         }
+
+        if (config.helmExecute) {
+                        buildSettings['publish'] = true
+                        Map helmExecuteSettings = [:]
+                        helmExecuteSettings << buildSettings
+                        helmExecuteSettings['script'] = script
+
+                        helmExecute helmExecuteSettings
+                    }
     }
 }
