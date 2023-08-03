@@ -39,6 +39,10 @@ import static com.sap.piper.Prerequisites.checkScript
      * @possibleValues true, false
      */
     'cnbBuild',
+    /** Defines if a helm package should be created.
+     * @possibleValues true, false
+     */
+    'helmExecute',
 ])
 @Field Set PARAMETER_KEYS = STEP_CONFIG_KEYS
 
