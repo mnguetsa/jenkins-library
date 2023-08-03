@@ -118,7 +118,7 @@ void call(Map parameters = [:]) {
         }
 
         if (config.helmExecute) {
-                        buildSettings['publish'] = true
+                        def buildSettings['publish'] = true
                         Map helmExecuteSettings = [:]
                         helmExecuteSettings << buildSettings
                         helmExecuteSettings['script'] = script
