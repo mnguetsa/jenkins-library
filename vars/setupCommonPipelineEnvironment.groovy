@@ -118,6 +118,10 @@ void call(Map parameters = [:]) {
 
         def scmInfo = parameters.scmInfo
         if (scmInfo) {
+            echo "Branch: ${scmInfo.GIT_BRANCH}"
+            echo "Branch: ${scmInfo.GIT_LOCAL_BRANCH}"
+            echo "URL: ${scmInfo.GIT_URL}"
+            echo "Ref: ${scmInfo.GIT_REF}"
             setGitUrlsOnCommonPipelineEnvironment(script, scmInfo.GIT_URL)
             script.commonPipelineEnvironment.setGitCommitId(scmInfo.GIT_COMMIT)
 
