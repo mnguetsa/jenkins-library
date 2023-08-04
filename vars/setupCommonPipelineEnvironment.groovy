@@ -270,6 +270,8 @@ private void setGitRefOnCommonPipelineEnvironment(script, String gitCommit, Stri
         return
     }
 
+    echo "[${STEP_NAME}] [INFO] GitBranch: ${gitBranch}"
+
     if(gitBranch.contains("/")){
         gitBranch = gitBranch.split("/")[1]
     }
