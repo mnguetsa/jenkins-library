@@ -272,7 +272,7 @@ private void setGitRefOnCommonPipelineEnvironment(script, String gitCommit, Stri
 
     echo "[${STEP_NAME}] [INFO] GitBranch: ${gitBranch}"
 
-    def jobType = job.getClass().getName()
+    def jobType = currentBuild.job.getClass().getName()
     echo "[${STEP_NAME}] [INFO] Job Type: ${jobType}"
 
     if(gitBranch.contains("/")){
