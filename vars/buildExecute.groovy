@@ -42,7 +42,7 @@ import static com.sap.piper.Prerequisites.checkScript
     /** Defines if a helm package should be created.
      * @possibleValues true, false
      */
-    'helmExecute',
+    'kubernetesDeploy',
 ])
 @Field Set PARAMETER_KEYS = STEP_CONFIG_KEYS
 
@@ -117,14 +117,8 @@ void call(Map parameters = [:]) {
           cnbBuild script: script
         }
 
-        if (config.helmExecute) {
-                        def buildSettings = [:]
-                        buildSettings['publish'] = true
-                        Map helmExecuteSettings = [:]
-                        helmExecuteSettings << buildSettings
-                        helmExecuteSettings['script'] = script
-
-                        helmExecute helmExecuteSettings
-                    }
+        if (config.kubernetesDeploy) {
+            kubernetesDeploy script: this
+        }
     }
 }
