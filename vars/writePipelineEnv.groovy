@@ -16,7 +16,7 @@ void call(Map parameters = [:]) {
     if (piperGoPath && jsonMap) {
         withEnv(["PIPER_pipelineEnv=${jsonMap}"]) {
             def output = script.sh(returnStdout: true, script: "${piperGoPath} writePipelineEnv")
-            if (parameters?.verbose || true) {
+            if (parameters?.verbose || true) {
                 script.echo("wrote commonPipelineEnvironment: ${output}")
             }
         }
