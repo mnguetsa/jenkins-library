@@ -253,23 +253,23 @@ class commonPipelineEnvironment implements Serializable {
     }
 
     def setCPEMap(script, Map cpeMap) {
-        echo "[MH] entering setCPEMap: ${cpeMap}"
+        script.echo "[MH] entering setCPEMap: ${cpeMap}"
         if (cpeMap == null) return
         def prefix = ~/^.pipeline\/commonPipelineEnvironment\//
         files.each({f ->
                         def key = f.filename - prefix
-                        echo "[MH] found key: ${key}/${f.property}"
+                        script.echo "[MH] found key: ${key}/${f.property}"
                         if (cpeMap.containsKey(key)) this[f.property] = cpeMap[key]
                    })
 
         cpeMap.each {
             if (it.key.startsWith("custom/")) valueMap[it.key - ~/^custom\//] = it.value
             if (it.key.startsWith("container/")) {
-                echo "[MH] container entry found: ${it.key} / ${it.value}"
+                script.echo "[MH] container entry found: ${it.key} / ${it.value}"
                 containerProperties[it.key - ~/^container\//] = it.value
             }
         }
-        echo "[MH] containerProperties: ${containerProperties}"
+        script.echo "[MH] containerProperties: ${containerProperties}"
     }
 
     List getCustomDefaults() {
