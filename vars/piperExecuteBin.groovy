@@ -61,9 +61,6 @@ void call(Map parameters = [:], String stepName, String metadataFile, List crede
                 config.stashContent.add('pipelineConfigAndTests')
                 config.stashContent.add('piper-bin')
                 config.stashContent.add('pipelineStepReports')
-                if(stepName == 'kubernetesDeploy') {
-                  config.stashContent.add('source')
-                }
             }
 
             if (parameters.stashNoDefaultExcludes) {
