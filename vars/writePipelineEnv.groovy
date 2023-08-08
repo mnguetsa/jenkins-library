@@ -7,6 +7,7 @@ void call(Map parameters = [:]) {
     final script = checkScript(this, parameters) ?: this
     String piperGoPath = parameters?.piperGoPath ?: './piper'
     Map cpe = script?.commonPipelineEnvironment?.getCPEMap(script)
+    echo "[MH] cpe writePipelineEnv : ${script?.commonPipelineEnvironment}"
     if (cpe == null) {
         return
     }
