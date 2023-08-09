@@ -118,7 +118,7 @@ void call(Map parameters = [:]) {
         }
 
         if (config.kubernetesDeploy) {
-            kubernetesDeploy script: this
+            kubernetesDeploy script: script
         }
     }
 }
