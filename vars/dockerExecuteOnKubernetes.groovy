@@ -327,14 +327,14 @@ void executeOnPod(Map config, utils, Closure body, Script script) {
                     container(containerParams) {
                         try {
                             utils.unstashAll(stashContent)
-                            if (true) {
+                            if (config.verbose) {
                                 lsDir('Directory content before body execution')
                             }
                             if (defaultStashCreated) {
                                 invalidateStash(config, 'workspace', utils)
                             }
                             def result = body()
-                            if (true) {
+                            if (config.verbose) {
                                 lsDir('Directory content after body execution')
                             }
                             return result
@@ -358,7 +358,7 @@ private void lsDir(String message) {
   // some images might not contain the find command. In that case the build must not be aborted.
   catchError (message: 'Cannot list directory content', buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
     // no -ls option since this is not available for some images
-    sh  'find . -mindepth 1 -maxdepth 3'
+    sh  'find . -mindepth 1 -maxdepth 2'
   }
   echo "[DEBUG] End of ${message}"
 }

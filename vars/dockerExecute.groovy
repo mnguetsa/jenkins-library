@@ -185,7 +185,6 @@ void call(Map parameters = [:], body) {
                 container(getContainerDefined(config)) {
                     withEnv(dockerEnvVars) {
                         echo "[INFO][${STEP_NAME}] Executing inside a Kubernetes Container."
-                        lsDir('File before executing inside a Kubernetes Container')
                         body()
                         sh "chown -R 1000:1000 ."
                     }
@@ -402,14 +401,4 @@ def escapeBlanks(def s) {
     }
 
     return s
-}
-
-private void lsDir(String message) {
-  echo "[DEBUG] Begin of ${message}"
-  // some images might not contain the find command. In that case the build must not be aborted.
-  catchError (message: 'Cannot list directory content', buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
-    // no -ls option since this is not available for some images
-    sh  'find . -mindepth 1 -maxdepth 2'
-  }
-  echo "[DEBUG] End of ${message}"
 }
