@@ -8,8 +8,6 @@ void call(Map parameters = [:]) {
     final script = checkScript(this, parameters) ?: this
     String piperGoPath = parameters?.piperGoPath ?: './piper'
     def output = script.sh(returnStdout: true, script: "${piperGoPath} readPipelineEnv")
-    echo "[MH] readPipelineEnv: ${output}"
-    echo "[MH] cpe readPipelineEnv: ${script?.commonPipelineEnvironment}"
     Map cpeMap = script.readJSON(text: output)
     script?.commonPipelineEnvironment?.setCPEMap(script, cpeMap)
 }
