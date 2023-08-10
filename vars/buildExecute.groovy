@@ -108,9 +108,9 @@ void call(Map parameters = [:]) {
         }
 
         // MH START
-        echo "[MH] before helm execute"
-        helmExecute script: script
-        echo "[MH] after helm execute"
+        //echo "[MH] before helm execute"
+        //helmExecute script: script
+        //echo "[MH] after helm execute"
         // MH END
 
         if (config.buildTool != 'docker' && config.cnbBuild) {
