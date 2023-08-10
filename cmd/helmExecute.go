@@ -170,6 +170,9 @@ func parseAndRenderCPETemplate(config helmExecuteOptions, rootPath string, utils
 	}
 	valueFiles = append(valueFiles, config.HelmValues...)
 
+	if "1" == "1" {
+		return nil
+	}
 	for _, valueFile := range valueFiles {
 		cpeTemplate, err := utils.FileRead(valueFile)
 		if err != nil {
