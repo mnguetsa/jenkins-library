@@ -106,6 +106,11 @@ void call(Map parameters = [:]) {
                     error "[${STEP_NAME}] buildTool not set and no dockerImage & dockerCommand provided."
                 }
         }
+
+        // MH START
+        helmExecute: script: script
+        // MH END
+
         if (config.buildTool != 'docker' && config.cnbBuild) {
             if (!['npm', 'maven', 'mta', 'docker'].contains(config.buildTool)) {
                 throw new AbortException("ERROR - 'cnbBuild' does not support '${config.buildTool}' as a buildTool, consider using 'kanikoExecute' instead")
