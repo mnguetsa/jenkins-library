@@ -107,12 +107,6 @@ void call(Map parameters = [:]) {
                 }
         }
 
-        // MH START
-        //echo "[MH] before helm execute"
-        helmExecute script: script
-        //echo "[MH] after helm execute"
-        // MH END
-
         if (config.buildTool != 'docker' && config.cnbBuild) {
             if (!['npm', 'maven', 'mta', 'docker'].contains(config.buildTool)) {
                 throw new AbortException("ERROR - 'cnbBuild' does not support '${config.buildTool}' as a buildTool, consider using 'kanikoExecute' instead")

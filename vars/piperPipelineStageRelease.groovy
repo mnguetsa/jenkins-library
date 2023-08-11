@@ -84,6 +84,9 @@ void call(Map parameters = [:]) {
 
             if (config.kubernetesDeploy){
                 durationMeasure(script: script, measurementName: 'deploy_release_kubernetes_duration') {
+                    //echo "[MH] before helm execute"
+                    helmExecute script: script
+                    //echo "[MH] after helm execute"
                     kubernetesDeploy script: script
                 }
             }
