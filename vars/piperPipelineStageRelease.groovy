@@ -90,6 +90,8 @@ void call(Map parameters = [:]) {
 
                     echo "[MH] charts in workspace"
                     sh "find charts/sustainable-saas -mindepth 1 -maxdepth 10"
+                    // of course we cannot hard code the includes like this ...
+                    stash name: 'charts', includes: 'charts/sustainable-saas/charts/susaas-api/*.tgz', allowEmpty: true
 
                     kubernetesDeploy script: script
                 }
