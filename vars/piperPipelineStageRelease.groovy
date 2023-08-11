@@ -87,6 +87,10 @@ void call(Map parameters = [:]) {
                     //echo "[MH] before helm execute"
                     helmExecute script: script
                     //echo "[MH] after helm execute"
+
+                    echo "[MH] charts in workspace"
+                    sh "find charts/sustainable-saas -mindepth 1 -maxdepth 10"
+
                     kubernetesDeploy script: script
                 }
             }
