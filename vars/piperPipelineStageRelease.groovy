@@ -9,7 +9,9 @@ import static com.sap.piper.Prerequisites.checkScript
 @Field String STEP_NAME = getClass().getName()
 @Field String TECHNICAL_STAGE_NAME = 'productionDeployment'
 
-@Field Set GENERAL_CONFIG_KEYS = []
+@Field Set GENERAL_CONFIG_KEYS = [
+    'chartPath'
+]
 @Field STAGE_STEP_KEYS = [
     /** Can perform both to cloud foundry and neo targets. Preferred over cloudFoundryDeploy and neoDeploy, if configured. */
     'multicloudDeploy',
@@ -85,15 +87,14 @@ void call(Map parameters = [:]) {
             if (config.kubernetesDeploy){
                 durationMeasure(script: script, measurementName: 'deploy_release_kubernetes_duration') {
                     //echo "[MH] before helm execute"
-                    helmExecute script: script
+                    helmExecute script: script, chartPath: config.chartPath
                     //echo "[MH] after helm execute"
 
-                    echo "[MH] charts in workspace"
+                    echo "[MH] charts in workspace:"
                     sh "find charts/sustainable-saas -mindepth 1 -maxdepth 10"
-                    // of course we cannot hard code the includes like this ...
-                    stash name: 'charts', includes: 'charts/sustainable-saas/charts/*.tgz', allowEmpty: true
+                    stash name: 'charts', includes: "${config.chartPath}charts/*.tgz", allowEmpty: true
 
-                    kubernetesDeploy script: script
+                    kubernetesDeploy script: script, chartPath: config.chartPath
                 }
             }
         }
