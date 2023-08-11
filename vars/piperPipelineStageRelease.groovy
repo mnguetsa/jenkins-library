@@ -86,15 +86,14 @@ void call(Map parameters = [:]) {
 
             if (config.kubernetesDeploy){
                 durationMeasure(script: script, measurementName: 'deploy_release_kubernetes_duration') {
-                    //echo "[MH] before helm execute"
-                    helmExecute script: script, chartPath: config.chartPath
-                    //echo "[MH] after helm execute"
+
+                    helmExecute script: script
 
                     echo "[MH] charts in workspace:"
                     sh "find charts/sustainable-saas -mindepth 1 -maxdepth 10"
                     stash name: 'charts', includes: "${config.chartPath}charts/*.tgz", allowEmpty: true
 
-                    kubernetesDeploy script: script, chartPath: config.chartPath
+                    kubernetesDeploy script: script
                 }
             }
         }
