@@ -23,9 +23,6 @@ func (c *CPEMap) ParseTemplateWithDelimiter(cpeTemplate string, startDelimiter s
 		"git":         c.git,
 		"imageDigest": c.imageDigest,
 		"imageTag":    c.imageTag,
-		"include":     func(string) string { return "include" },
-		"merge":       func(string) string { return "merge" },
-		"dict":        func(string) string { return "dict" },
 
 		// ToDo: add template function for artifacts
 		// This requires alignment on artifact handling before, though
