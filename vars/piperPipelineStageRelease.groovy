@@ -9,9 +9,7 @@ import static com.sap.piper.Prerequisites.checkScript
 @Field String STEP_NAME = getClass().getName()
 @Field String TECHNICAL_STAGE_NAME = 'productionDeployment'
 
-@Field Set GENERAL_CONFIG_KEYS = [
-    'chartPath'
-]
+@Field Set GENERAL_CONFIG_KEYS = []
 @Field STAGE_STEP_KEYS = [
     /** Can perform both to cloud foundry and neo targets. Preferred over cloudFoundryDeploy and neoDeploy, if configured. */
     'multicloudDeploy',
@@ -86,11 +84,6 @@ void call(Map parameters = [:]) {
 
             if (config.kubernetesDeploy){
                 durationMeasure(script: script, measurementName: 'deploy_release_kubernetes_duration') {
-
-                    // for now done by the pipeline itself, early after init
-                    //helmExecute script: script, helmCommand: 'dependency', dependency: 'update'
-                    //stash name: 'charts', includes: "${config.chartPath}/charts/*.tgz", allowEmpty: true
-
                     kubernetesDeploy script: script
                 }
             }
