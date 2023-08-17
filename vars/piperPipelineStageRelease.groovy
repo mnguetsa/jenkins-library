@@ -89,8 +89,6 @@ void call(Map parameters = [:]) {
 
                     helmExecute script: script
 
-                    echo "[MH] charts in workspace:"
-                    sh "find charts/sustainable-saas -mindepth 1 -maxdepth 10"
                     stash name: 'charts', includes: "${config.chartPath}charts/*.tgz", allowEmpty: true
 
                     kubernetesDeploy script: script
