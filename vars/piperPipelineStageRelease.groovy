@@ -90,7 +90,7 @@ void call(Map parameters = [:]) {
                     helmExecute script: script, helmCommand: 'dependency', dependency: 'update'
                     stash name: 'charts', includes: "${config.chartPath}/charts/*.tgz", allowEmpty: true
 
-                    kubernetesDeploy script: script, stashContent: ['charts']
+                    kubernetesDeploy script: script, stashContent = ['charts']
                 }
             }
         }
