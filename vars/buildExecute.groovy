@@ -39,6 +39,7 @@ import static com.sap.piper.Prerequisites.checkScript
      * @possibleValues true, false
      */
     'cnbBuild',
+    'helmExecute',
 ])
 @Field Set PARAMETER_KEYS = STEP_CONFIG_KEYS
 
@@ -112,6 +113,10 @@ void call(Map parameters = [:]) {
                 throw new AbortException("ERROR - 'cnbBuild' does not support '${config.buildTool}' as a buildTool, consider using 'kanikoExecute' instead")
           }
           cnbBuild script: script
+        }
+
+        if(config.helmExecute) {
+          helmExecute script: script
         }
     }
 }
