@@ -314,3 +314,6 @@ spec:
       options:
         - name: -u
           value: "0"
+  sidecars:
+    - image: anil17/sonar-plugins-cache:0.1
+      name: sonar-cache

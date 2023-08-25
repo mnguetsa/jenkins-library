@@ -588,6 +588,9 @@ func sonarExecuteScanMetadata() config.StepData {
 			Containers: []config.Container{
 				{Name: "sonar", Image: "sonarsource/sonar-scanner-cli:4.8", Options: []config.Option{{Name: "-u", Value: "0"}}},
 			},
+			Sidecars: []config.Container{
+				{Name: "sonar-cache", Image: "anil17/sonar-plugins-cache:0.1"},
+			},
 			Outputs: config.StepOutputs{
 				Resources: []config.StepResources{
 					{
