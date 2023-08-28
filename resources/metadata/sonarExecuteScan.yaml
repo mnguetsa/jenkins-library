@@ -320,6 +320,8 @@ spec:
   sidecars:
     - image: anil17/sonar-plugins-cache:0.1
       name: sonar-cache
+      securityContext:
+        privileged: true
       volumeMounts:
         - mountPath: /dev/shm
           name: dev-shm
