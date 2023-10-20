@@ -54,7 +54,7 @@ func (g *GitHubActionsConfigProvider) InitOrchestratorProvider(settings *Orchest
 	if settings.GitHubToken != "" {
 		token = settings.GitHubToken
 	} else {
-		token = getEnv("PIPER_ACTION_GITHUB_TOOLS_TOKEN", "")
+		token = getEnv("PIPER_ACTION_GITHUB_ENTERPRISE_TOKEN", "")
 	}
 
 	g.ctx, g.client, err = piperGithub.NewClientBuilder(token, getEnv("GITHUB_API_URL", "")).Build()
