@@ -48,8 +48,16 @@ type fullLog struct {
 
 // InitOrchestratorProvider initializes http client for GitHubActionsDevopsConfigProvider
 func (g *GitHubActionsConfigProvider) InitOrchestratorProvider(settings *OrchestratorSettings) {
+	var token string
 	var err error
-	g.ctx, g.client, err = piperGithub.NewClientBuilder(settings.GitHubToken, getEnv("GITHUB_API_URL", "")).Build()
+
+	if settings.GitHubToken != "" {
+		token = settings.GitHubToken
+	} else {
+		token = getEnv("PIPER_ACTION_GITHUB_TOOLS_TOKEN", "")
+	}
+
+	g.ctx, g.client, err = piperGithub.NewClientBuilder(token, getEnv("GITHUB_API_URL", "")).Build()
 	if err != nil {
 		log.Entry().Errorf("failed to create github client: %v", err)
 		return
