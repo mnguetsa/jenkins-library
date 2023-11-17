@@ -6,7 +6,6 @@ package abaputils
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"math"
 	"os"
 	"testing"
@@ -87,6 +86,7 @@ func TestPollEntity(t *testing.T) {
 				logResultError,
 				`{"d" : { "status" : "E" } }`,
 				`{"d" : { "status" : "R" } }`,
+				`{"d" : { "status" : "Q" } }`,
 			},
 			Token:      "myToken",
 			StatusCode: 200,
@@ -154,7 +154,7 @@ repositories:
 - name: 'testRepo3'
   branch: 'testBranch3'`
 
-		err := ioutil.WriteFile("repositoriesTest.yml", []byte(manifestFileString), 0644)
+		err := os.WriteFile("repositoriesTest.yml", []byte(manifestFileString), 0644)
 
 		config := RepositoriesConfig{
 			BranchName:      "testBranch",
@@ -185,7 +185,7 @@ repositories:
 - repo: 'testRepo'
 - repo: 'testRepo2'`
 
-		err := ioutil.WriteFile("repositoriesTest.yml", []byte(manifestFileString), 0644)
+		err := os.WriteFile("repositoriesTest.yml", []byte(manifestFileString), 0644)
 
 		config := RepositoriesConfig{
 			Repositories: "repositoriesTest.yml",
@@ -213,7 +213,7 @@ repositories:
 - repo: 'testRepo'
 - repo: 'testRepo2'`
 
-		err := ioutil.WriteFile("repositoriesTest.yml", []byte(manifestFileString), 0644)
+		err := os.WriteFile("repositoriesTest.yml", []byte(manifestFileString), 0644)
 
 		config := RepositoriesConfig{
 			Repositories: "repositoriesTest.yml",
